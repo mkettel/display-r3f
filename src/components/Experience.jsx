@@ -1,7 +1,7 @@
-import { CameraControls, Environment, OrbitControls, Text, MeshReflectorMaterial, SpotLight, RenderTexture, Float } from "@react-three/drei";
+import { CameraControls, Environment, OrbitControls, Text, MeshReflectorMaterial, SpotLight, RenderTexture, Float, useVideoTexture } from "@react-three/drei";
 import { Resume } from "./Resume";
 import { degToRad } from "three/src/math/MathUtils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Color, Vector3 } from "three";
 import { Surfboard } from "../models/surfboard";
@@ -10,6 +10,7 @@ import { useFont } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { currentPageAtom } from "./UI";
 import { lerp } from "three/src/math/MathUtils";
+import * as THREE from "three";
 
 const bloomColor = new Color("#fff");
 bloomColor.multiplyScalar(1.01);
@@ -20,10 +21,12 @@ export const Experience = () => {
   const meshFitCameraHome = useRef();
   const meshFitCameraResume = useRef();
   const textmaterial = useRef();
+  const resumeRef = useRef();
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
+  const [resumeRotation, setResumeRotation] = useState(degToRad(-15))
 
   useFrame((_, delta) => {
-    textmaterial.current.opacity = lerp(textmaterial.current.opacity, currentPage === "home" || currentPage === "intro" ? 1 : 0, delta * 1.5)
+    textmaterial.current.opacity = lerp(textmaterial.current.opacity, currentPage === "home" || currentPage === "intro" ? 1 : 0.1, delta * 1.5)
   })
 
 
@@ -36,16 +39,18 @@ export const Experience = () => {
       setCurrentPage("home")
     }, 1200)
     fitCamera();
-    console.log(controls.current);
   }
 
   const fitCamera = async () => {
     if (currentPage === "store") {
       controls.current.smoothTime = 0.6;
       controls.current.fitToBox(meshFitCameraResume.current, true)
-    } else {
+      console.log(resumeRef.current);
+      // setResumeRotation(degToRad(-5));
+    } else if (currentPage === "home" || currentPage === "intro") {
       controls.current.smoothTime = 1.6;
       controls.current.fitToBox(meshFitCameraHome.current, true)
+      // setResumeRotation(degToRad(-15));
     }
   }
 
@@ -60,8 +65,15 @@ export const Experience = () => {
     return () => window.removeEventListener('resize', fitCamera);
   }, [currentPage])
 
+  const url = './mountain.mp4'
+  const texture = useVideoTexture(url);
+
   return (
     <>
+
+
+      <ambientLight intensity={1.5} />
+
       <CameraControls ref={controls} />
       <mesh ref={meshFitCameraHome} position={[0, 0, 2]} rotation={[0, 0.1, 0]} visible={false}>
         <boxGeometry args={[8.5, 2, 2]} />
@@ -78,8 +90,9 @@ export const Experience = () => {
         rotation-y={degToRad(30)}
         >
         MATTHEW{"\n"}KETTELKAMP
-        <meshBasicMaterial attach="material" color={bloomColor} toneMapped={false} ref={textmaterial}>
-         <RenderTexture attach={'map'}>
+        <meshBasicMaterial attach="material" color={bloomColor} toneMapped={false} ref={textmaterial} map={texture}>
+          {/* if i want to use a model or 3d shape inside the texture un-comment */}
+         {/* <RenderTexture attach={'map'}>
             <color attach="background" args={["white"]} />
             <Environment
               files={['./environmentMaps/1/px.jpg', './environmentMaps/1/nx.jpg', './environmentMaps/1/py.jpg', './environmentMaps/1/ny.jpg', './environmentMaps/1/pz.jpg', './environmentMaps/1/nz.jpg']}
@@ -96,13 +109,14 @@ export const Experience = () => {
                   <meshBasicMaterial color="blue" />
                 </mesh>
               </Float>
-         </RenderTexture>
+         </RenderTexture> */}
         </meshBasicMaterial>
 
       </Text>
 
-      <group rotation-y={degToRad(-15)} position-x={3.5} position-y={.7}>
-        <Resume />
+      {/* CAMERA BOX FOR RESUME */}
+      <group rotation-y={resumeRotation} position-x={3.5} position-y={.7}>
+        <Resume ref={resumeRef} />
         <mesh ref={meshFitCameraResume} visible={false}>
           <boxGeometry args={[2, 4, 2]}/>
           <meshBasicMaterial color="red" transparent opacity={0.5}/>
@@ -117,8 +131,8 @@ export const Experience = () => {
           resolution={1048}
           mixBlur={1}
           mixStrength={10}
-          roughness={1}
-          metalness={0.5}
+          roughness={0.9}
+          metalness={0.8}
           depthScale={1}
           opacity={0.5}
           transparent
