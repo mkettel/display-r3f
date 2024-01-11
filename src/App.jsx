@@ -12,7 +12,7 @@ function App() {
     <>
       <Canvas shadows camera={{ position: [0, 0, 9], fov: 42 }}>
         <color attach="background" args={["#171720"]} />
-        {!isMobile && <fog attach="fog" args={["#171720", 8, 30]} />}
+        {!isMobile && <fog attach="fog" args={["#171720", 10, 20]} />}
         <Suspense>
           <Experience />
         </Suspense>

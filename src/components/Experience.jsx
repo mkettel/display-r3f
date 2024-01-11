@@ -23,7 +23,7 @@ export const Experience = () => {
   const textmaterial = useRef();
   const resumeRef = useRef();
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
-  const [resumeRotation, setResumeRotation] = useState(degToRad(-15))
+  const isMobile = window.innerWidth < 768;
 
   useFrame((_, delta) => {
     textmaterial.current.opacity = lerp(textmaterial.current.opacity, currentPage === "home" || currentPage === "intro" ? 1 : 0.1, delta * 1.5)
