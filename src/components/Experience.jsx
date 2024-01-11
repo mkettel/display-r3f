@@ -27,6 +27,11 @@ export const Experience = () => {
 
   useFrame((_, delta) => {
     textmaterial.current.opacity = lerp(textmaterial.current.opacity, currentPage === "home" || currentPage === "intro" ? 1 : 0.1, delta * 1.5)
+    if (currentPage === "store") {
+      resumeRef.current.rotation.y = lerp(resumeRef.current.rotation.y, degToRad(0), delta * 1.5)
+    } else if (currentPage === "home" || currentPage === "intro") {
+      resumeRef.current.rotation.y = lerp(resumeRef.current.rotation.y, degToRad(-30), delta * 1.5)
+    }
   })
 
 
@@ -45,12 +50,9 @@ export const Experience = () => {
     if (currentPage === "store") {
       controls.current.smoothTime = 0.6;
       controls.current.fitToBox(meshFitCameraResume.current, true)
-      console.log(resumeRef.current);
-      // setResumeRotation(degToRad(-5));
     } else if (currentPage === "home" || currentPage === "intro") {
       controls.current.smoothTime = 1.6;
       controls.current.fitToBox(meshFitCameraHome.current, true)
-      // setResumeRotation(degToRad(-15));
     }
   }
 
@@ -73,6 +75,7 @@ export const Experience = () => {
 
 
       <ambientLight intensity={1.5} />
+      <directionalLight position={[0, 10, 0]} intensity={1.0} castShadow />
 
       <CameraControls ref={controls} />
       <mesh ref={meshFitCameraHome} position={[0, 0, 2]} rotation={[0, 0.1, 0]} visible={false}>
@@ -114,9 +117,9 @@ export const Experience = () => {
 
       </Text>
 
-      {/* CAMERA BOX FOR RESUME */}
-      <group rotation-y={resumeRotation} position-x={3.5} position-y={.7}>
-        <Resume ref={resumeRef} />
+      {/* CAMERA BOX and RESUME */}
+      <group position-x={3.5} position-y={.7} ref={resumeRef}>
+        <Resume />
         <mesh ref={meshFitCameraResume} visible={false}>
           <boxGeometry args={[2, 4, 2]}/>
           <meshBasicMaterial color="red" transparent opacity={0.5}/>
