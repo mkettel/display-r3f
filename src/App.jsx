@@ -5,11 +5,14 @@ import { Suspense } from "react";
 import { UI } from "./components/UI";
 
 function App() {
+
+  const isMobile = window.innerWidth < 768;
+
   return (
     <>
       <Canvas shadows camera={{ position: [0, 0, 9], fov: 42 }}>
         <color attach="background" args={["#171720"]} />
-        <fog attach="fog" args={["#171720", 8, 30]} />
+        {!isMobile && <fog attach="fog" args={["#171720", 8, 30]} />}
         <Suspense>
           <Experience />
         </Suspense>

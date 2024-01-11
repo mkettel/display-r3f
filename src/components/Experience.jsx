@@ -74,7 +74,7 @@ export const Experience = () => {
     <>
 
 
-      <ambientLight intensity={1.5} />
+      <ambientLight intensity={1.0} />
       <directionalLight position={[0, 10, 0]} intensity={1.0} castShadow />
 
       <CameraControls ref={controls} />
@@ -118,10 +118,10 @@ export const Experience = () => {
       </Text>
 
       {/* CAMERA BOX and RESUME */}
-      <group position-x={3.5} position-y={.7} ref={resumeRef}>
+      <group position-x={3.5} position-y={0.4} ref={resumeRef}>
         <Resume />
         <mesh ref={meshFitCameraResume} visible={false}>
-          <boxGeometry args={[2, 4, 2]}/>
+          <boxGeometry args={[2, 2.5, 2]}/>
           <meshBasicMaterial color="red" transparent opacity={0.5}/>
         </mesh>
       </group>

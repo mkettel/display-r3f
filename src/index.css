@@ -14,9 +14,9 @@ body {
 
 
 .end {
-  right: 41%;
+  right: 42%;
   position: absolute;
-  bottom: 65%;
+  bottom: 70%;
   transition: .3s opacity;
 }
 
