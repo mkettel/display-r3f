@@ -18,7 +18,7 @@ export const Resume = () => {
   const [texture, setTexture] = useState(janResume);
 
   const bloomColor = new Color("#fff");
-  bloomColor.multiplyScalar(1.4);
+  bloomColor.multiplyScalar(1.7);
 
   return <>
     {/* Resume Plane */}

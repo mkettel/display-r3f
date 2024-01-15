@@ -4,8 +4,6 @@ import { degToRad } from "three/src/math/MathUtils";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Color, Vector3 } from "three";
-import { Surfboard } from "../models/surfboard";
-import { Casa } from "../models/casa";
 import { useFont } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { currentPageAtom } from "./UI";
@@ -68,7 +66,8 @@ export const Experience = () => {
   }, [currentPage])
 
   const url = './mountain.mp4'
-  const texture = useVideoTexture(url);
+  const smokeVideo = './smoke-color.mp4'
+  const texture = useVideoTexture(smokeVideo);
 
   return (
     <>
@@ -77,7 +76,15 @@ export const Experience = () => {
       <ambientLight intensity={1.0} />
       <directionalLight position={[0, 10, 0]} intensity={1.0} castShadow />
 
-      <CameraControls ref={controls} />
+      <CameraControls
+        ref={controls}
+        maxAzimuthAngle={1}
+        minAzimuthAngle={-0.5}
+        minPolarAngle={Math.PI / 2}
+        maxPolarAngle={- Math.PI / 2}
+        minDistance={3}
+        maxDistance={isMobile ? 30 : 12}
+      />
       <mesh ref={meshFitCameraHome} position={[0, 0, 2]} rotation={[0, 0.1, 0]} visible={false}>
         <boxGeometry args={[8.5, 2, 2]} />
         <meshBasicMaterial color="red" transparent opacity={0.5}/>
@@ -157,7 +164,6 @@ export const Experience = () => {
 };
 
 useFont.preload("fonts/ClashDisplay-Variable.ttf");
-
 
 function MovingSpot({ vec = new Vector3(), ...props }) {
   const light = useRef()
