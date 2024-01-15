@@ -10,8 +10,8 @@ import { currentPageAtom } from "./UI";
 import { lerp } from "three/src/math/MathUtils";
 import * as THREE from "three";
 
-const bloomColor = new Color("#fff");
-bloomColor.multiplyScalar(1.01);
+const bloomColor = new Color("#7EE8FA");
+bloomColor.multiplyScalar(1.11);
 
 export const Experience = () => {
 
@@ -115,8 +115,8 @@ export const Experience = () => {
                 floatingRange={[-2, 4]}
               >
                 <mesh>
-                  <boxGeometry args={[9, 7, 4]} />
-                  <meshBasicMaterial color="blue" />
+                  <boxGeometry args={[6, 6, 6]} />
+                  <meshBasicMaterial color="#171720" />
                 </mesh>
               </Float>
          </RenderTexture>
