@@ -100,8 +100,9 @@ export const Experience = () => {
         >
         MATTHEW{"\n"}KETTELKAMP
         <meshBasicMaterial attach="material" color={bloomColor} toneMapped={false} ref={textmaterial} map={texture}>
+        {/* <meshBasicMaterial attach="material" color={bloomColor} toneMapped={false} ref={textmaterial} map={texture}> */}
           {/* if i want to use a model or 3d shape inside the texture un-comment */}
-         {/* <RenderTexture attach={'map'}>
+         <RenderTexture attach={'map'}>
             <color attach="background" args={["white"]} />
             <Environment
               files={['./environmentMaps/1/px.jpg', './environmentMaps/1/nx.jpg', './environmentMaps/1/py.jpg', './environmentMaps/1/ny.jpg', './environmentMaps/1/pz.jpg', './environmentMaps/1/nz.jpg']}
@@ -118,7 +119,7 @@ export const Experience = () => {
                   <meshBasicMaterial color="blue" />
                 </mesh>
               </Float>
-         </RenderTexture> */}
+         </RenderTexture>
         </meshBasicMaterial>
 
       </Text>
