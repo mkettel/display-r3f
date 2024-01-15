@@ -66,8 +66,7 @@ export const Experience = () => {
   }, [currentPage])
 
   const url = './mountain.mp4'
-  const smokeVideo = './smoke-color.mp4'
-  const texture = useVideoTexture(smokeVideo);
+  const texture = useVideoTexture(url);
 
   return (
     <>
